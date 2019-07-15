@@ -1,8 +1,20 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Suspense } from "react";
+import {Link} from "react-router-dom";
 import "./index.css";
 import Greeting from "./childComponents/one/index";
-import Foo from "./foo"
-import Bar from "./bar"
+
+import Lazy from "./lazy"
+
+import Jsx from "./JulyNine/index"
+import Orefs from "./JulyFifteen/index"
+//代码分割
+const Foo = React.lazy(() => import("./foo"))
+const Bar = React.lazy(() => import("./bar"))
+// const Lazy = React.lazy(() => import("./lazy"))
+// console.log("Lazy",Lazy);
+// import Foo from "./foo"
+// import Bar from "./bar"
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +29,8 @@ class Game extends React.Component {
 
         this.ownMethod = this.ownMethod.bind(this);
         this.getFromFoo = this.getFromFoo.bind(this);
+
+        this.textInput = React.createRef();
     }
     //React 方法绑定this  class方法默认不会绑定this
     // 1 constructor内部绑定this this.handleClick = this.handleClick.bind(this)
@@ -26,7 +40,9 @@ class Game extends React.Component {
         console.log("componentWillMount")
     }
     componentDidMount() {
-        console.log("componentDidMount")
+        console.log("componentDidMount");
+        //进入页面自动执行 子组件聚焦方法
+        this.textInput.current.inputFocus();
     }
     componentWillReceiveProps() {
         console.log("componentWillReceiveProps")
@@ -75,6 +91,9 @@ class Game extends React.Component {
         let { date, arr, val } = this.state;
         return (
             <div>
+
+            <Link to="/page1">Hook</Link>
+            <Link to="/page2">Opage2</Link>
                 <div className="otit">头部</div>
                 <a href="#" onClick={this.handleClick.bind(this, "cc", "mm")}>点击</a>
                 {date.toLocaleDateString()}
@@ -90,12 +109,29 @@ class Game extends React.Component {
                     <input type="submit" value="提交" />
                 </form>
                 <Greeting isLogined={true}></Greeting>
-                <Foo putMethod={this.ownMethod} getFromFoo={this.getFromFoo}></Foo>
-                <Bar></Bar>
+                {/* <Suspense fallback={<div>Loading...</div>}>
+                    <Foo putMethod={this.ownMethod} getFromFoo={this.getFromFoo}></Foo>
+                </Suspense> */}
+                {/* <Bar></Bar> */}
+                {/* <Suspense fallback={<div>Loading...</div>}><Lazy></Lazy></Suspense> */}
+                <Lazy></Lazy>
                 <Fragment>
                     <dt>文字一</dt>
                     <dd>数字1</dd>
                 </Fragment>
+                {/* 2019-07-09 
+                组件名称必须以大写字母开头 */}
+                {/* shouldComponentUpdate 校验组件属性是否有更新 进而判断是否渲染组件 */}
+                {/* React.PureComponent 来代替手写sholudComponentUpdate 只能进行浅比较 
+                当props 或者state某种程度可变  浅比较会有遗漏会有
+                https://react.docschina.org/docs/optimizing-performance.html shouldComponentUpdate部分 */}
+
+                {/* 使用不可变数据结构
+                不可改变原始数据源 */}
+                <Jsx />
+                {/* 2019-07-15 */}
+                {/* 勿过度使用refs */}
+                <Orefs ref={this.textInput} />
             </div>
         )
     }
