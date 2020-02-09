@@ -1,20 +1,14 @@
-import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
-import ShoppingList from "./components/one/index"
-import Board from "./components/two/index"
-import Game from "./components/four/index"
-import Page from "./components/five/index"
-function App() {
-  return (
-    <div className="App">
-      <header>芝麻开门</header>
-      <ShoppingList name="apple"></ShoppingList>
-      <Board></Board>
-      <Game></Game>
-      {/* <Page></Page> */}
-    </div>
-  );
+import React, { Component } from 'react';
+class App extends Component {
+    render() {
+        return (
+            // <div>hello world</div>
+            <ul classNmae="my-list">
+                {/* jsx */}
+                <li>{true ? 'zml' : 'enen'}</li>
+                <li>haha</li>
+            </ul>
+        )
+    }
 }
-
 export default App;
