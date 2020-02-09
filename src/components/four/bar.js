@@ -15,7 +15,6 @@ class Bar extends React.Component {
     render() {
         return (
             //就是普通的添加属性
-            //代码分割
             <div aria-haspopup="true">this is Bar</div>
         )
     }
